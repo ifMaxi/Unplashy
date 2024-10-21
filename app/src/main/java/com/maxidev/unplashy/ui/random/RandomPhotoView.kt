@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -57,34 +58,39 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import coil3.compose.AsyncImage
 import com.maxidev.unplashy.broadcast.AndroidDownloader
 import com.maxidev.unplashy.domain.model.RandomPhoto
+import com.maxidev.unplashy.navigation.RandomPhotoScreen
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 import com.maxidev.unplashy.utils.toastUtil
 
 private const val UNKNOWN = "Unknown"
 
-@Composable
-fun RandomPhotoView(
-    modifier: Modifier = Modifier,
-    viewModel: RandomViewModel = hiltViewModel()
+fun NavGraphBuilder.randomPhotoView(
+    navigateToImageZoom: (String, Float, Float) -> Unit
 ) {
-    val state by viewModel.loadState.collectAsStateWithLifecycle()
-    val scrollState = rememberScrollState()
+    composable<RandomPhotoScreen> {
+        val viewModel = hiltViewModel<RandomViewModel>()
+        val state by viewModel.loadState.collectAsStateWithLifecycle()
+        val scrollState = rememberScrollState()
 
-    LoadStatus(
-        modifier = modifier,
-        status = state,
-        scrollState = scrollState
-    )
+        LoadStatus(
+            status = state,
+            scrollState = scrollState,
+            navigateToImageZoom = navigateToImageZoom
+        )
+    }
 }
 
 @Composable
 private fun LoadStatus(
     modifier: Modifier = Modifier,
     status: RandomStatus,
-    scrollState: ScrollState
+    scrollState: ScrollState,
+    navigateToImageZoom: (String, Float, Float) -> Unit
 ) {
 
     when (status) {
@@ -93,7 +99,8 @@ private fun LoadStatus(
             ContentView(
                 modifier = modifier,
                 randomPhoto = status.onSuccess ?: return,
-                scrollState = scrollState
+                scrollState = scrollState,
+                navigateToImageZoom = navigateToImageZoom
             )
         }
     }
@@ -103,7 +110,8 @@ private fun LoadStatus(
 private fun ContentView(
     modifier: Modifier = Modifier,
     randomPhoto: RandomPhoto,
-    scrollState: ScrollState
+    scrollState: ScrollState,
+    navigateToImageZoom: (String, Float, Float) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -116,7 +124,10 @@ private fun ContentView(
             description = randomPhoto.description,
             fullImageUrl = randomPhoto.fullImageUrl,
             city = randomPhoto.city,
-            country = randomPhoto.country
+            country = randomPhoto.country,
+            width = randomPhoto.width,
+            height = randomPhoto.height,
+            navigateToImageZoom = navigateToImageZoom
         )
         UserPhotoWithDescription(
             name = randomPhoto.name,
@@ -148,7 +159,10 @@ private fun PhotoWithLocation(
     description: String,
     fullImageUrl: String,
     city: String,
-    country: String
+    country: String,
+    width: Int,
+    height: Int,
+    navigateToImageZoom: (String, Float, Float) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -163,6 +177,9 @@ private fun PhotoWithLocation(
                 .fillMaxWidth()
                 .height(400.dp)
                 .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                .clickable {
+                    navigateToImageZoom(fullImageUrl, width.toFloat(), height.toFloat())
+                }
         )
         Row(
             modifier = Modifier
@@ -460,7 +477,8 @@ private fun ContentViewPreview() {
                 type = "type",
                 title = listOf()
             ),
-            scrollState = rememberScrollState()
+            scrollState = rememberScrollState(),
+            navigateToImageZoom = { _, _, _ ->  }
         )
     }
 }
@@ -473,7 +491,10 @@ private fun PhotoWithLocationAndUserDescriptionPreview() {
             description = "Alone.",
             fullImageUrl = "image",
             city = "Chore",
-            country = "Senegal"
+            country = "Senegal",
+            navigateToImageZoom = { _, _, _ ->  },
+            width = 0,
+            height = 0
         )
     }
 }

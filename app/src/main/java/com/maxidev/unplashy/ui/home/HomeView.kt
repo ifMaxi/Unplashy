@@ -30,33 +30,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import coil3.compose.AsyncImage
 import com.maxidev.unplashy.domain.model.Photos
-import com.maxidev.unplashy.navigation.RandomPhotoScreen
+import com.maxidev.unplashy.navigation.HomePhotoScreen
 import com.maxidev.unplashy.ui.components.BottomBarItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 
-@Composable
-fun HomeView(
-    modifier: Modifier = Modifier,
-    navController: NavController,
-    viewModel: PhotosViewModel = hiltViewModel()
+fun NavGraphBuilder.homeView(
+    navigateToRandom: () -> Unit,
+    navigateToSearch: () -> Unit
 ) {
-    val photo = viewModel.pagingPhotos.collectAsLazyPagingItems()
-    val lazyState = rememberLazyStaggeredGridState()
+    composable<HomePhotoScreen> {
+        val viewModel = hiltViewModel<PhotosViewModel>()
+        val photo = viewModel.pagingPhotos.collectAsLazyPagingItems()
+        val lazyState = rememberLazyStaggeredGridState()
 
-    PhotosContent(
-        modifier = modifier,
-        pagedContent = photo,
-        lazyState = lazyState,
-        navigateToRandom = { navController.navigate(RandomPhotoScreen) },
-        navigateToSearch = { /* Navigate to search screen */ }
-    )
+        PhotosContent(
+            pagedContent = photo,
+            lazyState = lazyState,
+            navigateToRandom = navigateToRandom,
+            navigateToSearch = navigateToSearch
+        )
+    }
 }
 
 @Composable
