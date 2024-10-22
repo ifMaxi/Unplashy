@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.maxidev.unplashy.ui.home.homeView
 import com.maxidev.unplashy.ui.random.randomPhotoView
+import com.maxidev.unplashy.ui.search.searchPhotoScreen
 import com.maxidev.unplashy.ui.zoom.imageZoomView
 import kotlinx.serialization.Serializable
 
@@ -21,7 +22,7 @@ fun NavigationGraph(
     ) {
         homeView(
             navigateToRandom = { navController.navigate(RandomPhotoScreen) },
-            navigateToSearch = { /* Navigate to search */ }
+            navigateToSearch = { navController.navigate(SearchScreen) }
         )
         randomPhotoView(
             navigateToImageZoom = { imageUrl, width, height ->
@@ -35,6 +36,7 @@ fun NavigationGraph(
             }
         )
         imageZoomView(navigateBack = { navController.popBackStack() })
+        searchPhotoScreen()
     }
 }
 
@@ -45,3 +47,4 @@ fun NavigationGraph(
     val width: Float,
     val height: Float
 )
+@Serializable data object SearchScreen

@@ -2,6 +2,7 @@ package com.maxidev.unplashy.di
 
 import com.maxidev.unplashy.data.remote.apiservice.HomeService
 import com.maxidev.unplashy.data.remote.apiservice.RandomService
+import com.maxidev.unplashy.data.remote.apiservice.SearchService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +23,9 @@ object ApiServiceModule {
     @Singleton
     fun providesRandomService(retrofit: Retrofit): RandomService =
         retrofit.create(RandomService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesSearchService(retrofit: Retrofit): SearchService =
+        retrofit.create(SearchService::class.java)
 }
