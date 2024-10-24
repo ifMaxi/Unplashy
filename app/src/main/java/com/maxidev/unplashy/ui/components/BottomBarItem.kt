@@ -2,6 +2,7 @@ package com.maxidev.unplashy.ui.components
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.BottomAppBar
@@ -22,9 +23,11 @@ import com.maxidev.unplashy.ui.theme.UnplashyTheme
 fun BottomBarItem(
     modifier: Modifier = Modifier,
     searchIcon: ImageVector,
+    collectionIcon: ImageVector,
     fabIcon: ImageVector,
-    onFabClick: () -> Unit,
-    onSearchClick: () -> Unit
+    navigateToMainPage: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToCollections: () -> Unit
 ) {
     BottomAppBar(
         modifier = modifier
@@ -33,16 +36,22 @@ fun BottomBarItem(
             ),
         containerColor = MaterialTheme.colorScheme.tertiaryContainer,
         actions = {
-            IconButton(onClick = onSearchClick) {
+            IconButton(onClick = navigateToSearch) {
                 Icon(
                     imageVector = searchIcon,
+                    contentDescription = null
+                )
+            }
+            IconButton(onClick = navigateToCollections) {
+                Icon(
+                    imageVector = collectionIcon,
                     contentDescription = null
                 )
             }
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = onFabClick,
+                onClick = navigateToMainPage,
                 shape = RoundedCornerShape(15),
                 elevation = FloatingActionButtonDefaults.elevation(6.dp),
                 content = {
@@ -61,10 +70,12 @@ fun BottomBarItem(
 private fun BottomBarItemPreview() {
     UnplashyTheme {
         BottomBarItem(
+            collectionIcon = Icons.Default.Collections,
             fabIcon = Icons.Default.Image,
             searchIcon = Icons.Default.Search,
-            onFabClick = {},
-            onSearchClick = {}
+            navigateToMainPage = {},
+            navigateToSearch = {},
+            navigateToCollections = {}
         )
     }
 }

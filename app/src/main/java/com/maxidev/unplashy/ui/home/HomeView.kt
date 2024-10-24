@@ -1,5 +1,7 @@
 package com.maxidev.unplashy.ui.home
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +18,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridS
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -44,8 +49,8 @@ import com.maxidev.unplashy.ui.components.BottomBarItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 
 fun NavGraphBuilder.homeView(
-    navigateToUnsplash: () -> Unit,
     navigateToSearch: () -> Unit,
+    navigateToCollection: () -> Unit,
     navigateToDetail: (String) -> Unit
 ) {
     composable<HomePhotoScreen> {
@@ -56,9 +61,9 @@ fun NavGraphBuilder.homeView(
         PhotosContent(
             pagedContent = photo,
             lazyState = lazyState,
-            navigateToRandom = navigateToUnsplash,
             navigateToSearch = navigateToSearch,
-            navigateToDetail = navigateToDetail
+            navigateToDetail = navigateToDetail,
+            navigateToCollection = navigateToCollection
         )
     }
 }
@@ -68,20 +73,24 @@ private fun PhotosContent(
     modifier: Modifier = Modifier,
     pagedContent: LazyPagingItems<Photos>,
     lazyState: LazyStaggeredGridState,
-    navigateToRandom: () -> Unit,
     navigateToSearch: () -> Unit,
+    navigateToCollection: () -> Unit,
     navigateToDetail: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val photos = remember(pagedContent) { pagedContent }
+    val unsplashIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com"))
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
             BottomBarItem(
+                collectionIcon = Icons.Default.Collections,
                 searchIcon = Icons.Default.Search,
-                fabIcon = Icons.Default.Photo,
-                onFabClick = navigateToRandom,
-                onSearchClick = navigateToSearch
+                fabIcon = Icons.Default.Add,
+                navigateToMainPage = { startActivity(context, unsplashIntent, null) },
+                navigateToSearch = navigateToSearch,
+                navigateToCollections = navigateToCollection
             )
         }
     ) { innerPadding ->

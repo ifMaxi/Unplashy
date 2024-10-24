@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.maxidev.unplashy.ui.collections.collectionsScreen
 import com.maxidev.unplashy.ui.details.detailScreen
 import com.maxidev.unplashy.ui.home.homeView
 import com.maxidev.unplashy.ui.search.searchPhotoScreen
@@ -21,11 +22,12 @@ fun NavigationGraph(
         navController = navController
     ) {
         homeView(
-            navigateToUnsplash = { /* Navigate to MainPage */ },
+            navigateToCollection = { navController.navigate(CollectionsScreen) },
             navigateToSearch = { navController.navigate(SearchScreen) },
             navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) }
         )
         searchPhotoScreen()
+        collectionsScreen()
         detailScreen(
             navigateBack = { navController.popBackStack() },
             navigateToImageZoom = { imageUrl, width, height ->
@@ -44,6 +46,7 @@ fun NavigationGraph(
 
 @Serializable data object HomePhotoScreen
 @Serializable data object SearchScreen
+@Serializable data object CollectionsScreen
 @Serializable data class DetailScreen(val id: String)
 @Serializable
 data class ImageZoomScreen(

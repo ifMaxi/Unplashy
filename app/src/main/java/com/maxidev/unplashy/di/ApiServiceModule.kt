@@ -1,5 +1,6 @@
 package com.maxidev.unplashy.di
 
+import com.maxidev.unplashy.data.remote.apiservice.CollectionsService
 import com.maxidev.unplashy.data.remote.apiservice.DetailService
 import com.maxidev.unplashy.data.remote.apiservice.HomeService
 import com.maxidev.unplashy.data.remote.apiservice.SearchService
@@ -28,4 +29,9 @@ object ApiServiceModule {
     @Singleton
     fun providesSearchService(retrofit: Retrofit): SearchService =
         retrofit.create(SearchService::class.java)
+
+    @Provides
+    @Singleton
+    fun providesCollectionsService(retrofit: Retrofit): CollectionsService =
+        retrofit.create(CollectionsService::class.java)
 }
