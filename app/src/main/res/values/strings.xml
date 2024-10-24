@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Unplashy</string>
+
+    <!-- Content Description -->
+    <string name="navigate_back">Navigate Back</string>
+    <string name="download">Download</string>
+    <string name="open_in_browser">Open in Browser</string>
+    <string name="share">Share</string>
+    <string name="location">Location</string>
 </resources>
