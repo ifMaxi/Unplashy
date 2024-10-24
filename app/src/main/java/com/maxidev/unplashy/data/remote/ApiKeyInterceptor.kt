@@ -12,7 +12,7 @@ class ApiKeyInterceptor: Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        var originalRequest = chain.request()
+        val originalRequest = chain.request()
         val requestWithApiKey = originalRequest.newBuilder()
             .header("Authorization", "Client-ID $apiKey")
             .build()
