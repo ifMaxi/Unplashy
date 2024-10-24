@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.maxidev.unplashy.ui.details.detailScreen
 import com.maxidev.unplashy.ui.home.homeView
-import com.maxidev.unplashy.ui.random.randomPhotoView
 import com.maxidev.unplashy.ui.search.searchPhotoScreen
 import com.maxidev.unplashy.ui.zoom.imageZoomView
 import kotlinx.serialization.Serializable
@@ -21,10 +21,13 @@ fun NavigationGraph(
         navController = navController
     ) {
         homeView(
-            navigateToRandom = { navController.navigate(RandomPhotoScreen) },
-            navigateToSearch = { navController.navigate(SearchScreen) }
+            navigateToUnsplash = { /* Navigate to MainPage */ },
+            navigateToSearch = { navController.navigate(SearchScreen) },
+            navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) }
         )
-        randomPhotoView(
+        searchPhotoScreen()
+        detailScreen(
+            navigateBack = { navController.popBackStack() },
             navigateToImageZoom = { imageUrl, width, height ->
                 navController.navigate(
                     ImageZoomScreen(
@@ -36,15 +39,15 @@ fun NavigationGraph(
             }
         )
         imageZoomView(navigateBack = { navController.popBackStack() })
-        searchPhotoScreen()
     }
 }
 
 @Serializable data object HomePhotoScreen
-@Serializable data object RandomPhotoScreen
-@Serializable data class ImageZoomScreen(
+@Serializable data object SearchScreen
+@Serializable data class DetailScreen(val id: String)
+@Serializable
+data class ImageZoomScreen(
     val imageUrl: String,
     val width: Float,
     val height: Float
 )
-@Serializable data object SearchScreen

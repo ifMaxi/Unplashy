@@ -1,10 +1,10 @@
 package com.maxidev.unplashy.di
 
+import com.maxidev.unplashy.data.repository.DetailRepositoryImpl
 import com.maxidev.unplashy.data.repository.HomeRepositoryImpl
-import com.maxidev.unplashy.data.repository.RandomPhotoRepositoryImpl
 import com.maxidev.unplashy.data.repository.SearchRepositoryImpl
+import com.maxidev.unplashy.domain.repository.DetailRepository
 import com.maxidev.unplashy.domain.repository.HomeRepository
-import com.maxidev.unplashy.domain.repository.RandomPhotoRepository
 import com.maxidev.unplashy.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
@@ -19,7 +19,7 @@ abstract class RepositoryModule {
     abstract fun bindHomeRepository(impl: HomeRepositoryImpl): HomeRepository
 
     @Binds
-    abstract fun bindRandomRepository(impl: RandomPhotoRepositoryImpl): RandomPhotoRepository
+    abstract fun bindRandomRepository(impl: DetailRepositoryImpl): DetailRepository
 
     @Binds
     abstract fun bindSearchRepository(impl: SearchRepositoryImpl): SearchRepository
