@@ -2,6 +2,7 @@ package com.maxidev.unplashy.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.maxidev.unplashy.data.remote.ApiKeyInterceptor
+import com.maxidev.unplashy.data.remote.CacheInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 
 private const val BASE_URL = "https://api.unsplash.com/"
 private const val CONTENT_TYPE = "application/json"
+private const val TIMEOUT = 15L
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -26,10 +28,10 @@ object RemoteModule {
 
         val json = Json { ignoreUnknownKeys = true }
         val okHttpClient = OkHttpClient.Builder()
-            .readTimeout(15, TimeUnit.SECONDS)
-            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(ApiKeyInterceptor())
-            //.addNetworkInterceptor(CacheInterceptor())
+            .addNetworkInterceptor(CacheInterceptor())
             .build()
 
         return Retrofit.Builder()

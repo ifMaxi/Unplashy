@@ -1,5 +1,6 @@
 package com.maxidev.unplashy.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -43,8 +44,9 @@ import com.maxidev.unplashy.ui.components.BottomBarItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 
 fun NavGraphBuilder.homeView(
-    navigateToRandom: () -> Unit,
-    navigateToSearch: () -> Unit
+    navigateToUnsplash: () -> Unit,
+    navigateToSearch: () -> Unit,
+    navigateToDetail: (String) -> Unit
 ) {
     composable<HomePhotoScreen> {
         val viewModel = hiltViewModel<PhotosViewModel>()
@@ -54,8 +56,9 @@ fun NavGraphBuilder.homeView(
         PhotosContent(
             pagedContent = photo,
             lazyState = lazyState,
-            navigateToRandom = navigateToRandom,
-            navigateToSearch = navigateToSearch
+            navigateToRandom = navigateToUnsplash,
+            navigateToSearch = navigateToSearch,
+            navigateToDetail = navigateToDetail
         )
     }
 }
@@ -66,7 +69,8 @@ private fun PhotosContent(
     pagedContent: LazyPagingItems<Photos>,
     lazyState: LazyStaggeredGridState,
     navigateToRandom: () -> Unit,
-    navigateToSearch: () -> Unit
+    navigateToSearch: () -> Unit,
+    navigateToDetail: (String) -> Unit
 ) {
     val photos = remember(pagedContent) { pagedContent }
 
@@ -74,7 +78,6 @@ private fun PhotosContent(
         modifier = modifier,
         bottomBar = {
             BottomBarItem(
-                fabText = "Random",
                 searchIcon = Icons.Default.Search,
                 fabIcon = Icons.Default.Photo,
                 onFabClick = navigateToRandom,
@@ -101,9 +104,11 @@ private fun PhotosContent(
             ) { item ->
                 photos[item]?.let { photos ->
                     PhotoItem(
+                        id = photos.id,
                         imageRegular = photos.regular,
                         name = photos.name,
-                        profileImageSmall = photos.profileImageLarge
+                        profileImageSmall = photos.profileImageLarge,
+                        navigateToDetail = navigateToDetail
                     )
                 }
             }
@@ -135,9 +140,11 @@ private fun TopTextItem(
 @Composable
 private fun PhotoItem(
     modifier: Modifier = Modifier,
+    id: String,
     imageRegular: String,
     name: String,
-    profileImageSmall: String
+    profileImageSmall: String,
+    navigateToDetail: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -168,7 +175,8 @@ private fun PhotoItem(
         }
         AsyncImage(
             modifier = modifier
-                .clip(RoundedCornerShape(3)),
+                .clip(RoundedCornerShape(3))
+                .clickable { navigateToDetail(id) },
             model = imageRegular,
             contentDescription = null,
             contentScale = ContentScale.FillBounds
@@ -183,7 +191,9 @@ private fun PhotoItemPreview() {
         PhotoItem(
             imageRegular = "image",
             name = "Brett Hart",
-            profileImageSmall = "image"
+            profileImageSmall = "image",
+            navigateToDetail = {},
+            id = "id"
         )
     }
 }
