@@ -1,10 +1,10 @@
 package com.maxidev.unplashy.di
 
-import com.maxidev.unplashy.data.repository.CollectionsRepositoryImpl
+import com.maxidev.unplashy.data.repository.TopicRepositoryImpl
 import com.maxidev.unplashy.data.repository.DetailRepositoryImpl
 import com.maxidev.unplashy.data.repository.HomeRepositoryImpl
 import com.maxidev.unplashy.data.repository.SearchRepositoryImpl
-import com.maxidev.unplashy.domain.repository.CollectionsRepository
+import com.maxidev.unplashy.domain.repository.TopicRepository
 import com.maxidev.unplashy.domain.repository.DetailRepository
 import com.maxidev.unplashy.domain.repository.HomeRepository
 import com.maxidev.unplashy.domain.repository.SearchRepository
@@ -27,5 +27,5 @@ abstract class RepositoryModule {
     abstract fun bindSearchRepository(impl: SearchRepositoryImpl): SearchRepository
 
     @Binds
-    abstract fun bindCollectionRepository(impl: CollectionsRepositoryImpl): CollectionsRepository
+    abstract fun bindCollectionRepository(impl: TopicRepositoryImpl): TopicRepository
 }

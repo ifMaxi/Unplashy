@@ -2,18 +2,18 @@ package com.maxidev.unplashy.data.repository.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.maxidev.unplashy.data.remote.apiservice.CollectionsService
+import com.maxidev.unplashy.data.remote.apiservice.TopicService
 import com.maxidev.unplashy.domain.mapper.asDomain
-import com.maxidev.unplashy.domain.model.Collections
+import com.maxidev.unplashy.domain.model.Topic
 import com.maxidev.unplashy.utils.Constants.PAGE_NUMBER
 import retrofit2.HttpException
 import java.io.IOException
 
-class CollectionsPagingSource(
-    private val apiService: CollectionsService
-): PagingSource<Int, Collections>() {
+class TopicsPagingSource(
+    private val apiService: TopicService
+): PagingSource<Int, Topic>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Collections>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Topic>): Int? {
 
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -21,11 +21,11 @@ class CollectionsPagingSource(
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Collections> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Topic> {
 
         return try {
             val nextPage = params.key ?: PAGE_NUMBER
-            val response = apiService.getCollections(perPage = params.loadSize, page = nextPage)
+            val response = apiService.getTopics(perPage = params.loadSize, page = nextPage)
             val prevKey = if (nextPage == 1) null else nextPage - 1
             val nextKey = if (response.isEmpty()) null else nextPage + 1
 

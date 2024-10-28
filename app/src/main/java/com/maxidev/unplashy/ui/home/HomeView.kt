@@ -19,8 +19,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Collections
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Topic
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,7 +50,7 @@ import com.maxidev.unplashy.ui.theme.UnplashyTheme
 
 fun NavGraphBuilder.homeView(
     navigateToSearch: () -> Unit,
-    navigateToCollection: () -> Unit,
+    navigateToTopic: () -> Unit,
     navigateToDetail: (String) -> Unit
 ) {
     composable<HomePhotoScreen> {
@@ -63,7 +63,7 @@ fun NavGraphBuilder.homeView(
             lazyState = lazyState,
             navigateToSearch = navigateToSearch,
             navigateToDetail = navigateToDetail,
-            navigateToCollection = navigateToCollection
+            navigateToTopic = navigateToTopic
         )
     }
 }
@@ -74,7 +74,7 @@ private fun PhotosContent(
     pagedContent: LazyPagingItems<Photos>,
     lazyState: LazyStaggeredGridState,
     navigateToSearch: () -> Unit,
-    navigateToCollection: () -> Unit,
+    navigateToTopic: () -> Unit,
     navigateToDetail: (String) -> Unit
 ) {
     val context = LocalContext.current
@@ -85,12 +85,12 @@ private fun PhotosContent(
         modifier = modifier,
         bottomBar = {
             BottomBarItem(
-                collectionIcon = Icons.Default.Collections,
+                collectionIcon = Icons.Default.Topic,
                 searchIcon = Icons.Default.Search,
                 fabIcon = Icons.Default.Add,
                 navigateToMainPage = { startActivity(context, unsplashIntent, null) },
                 navigateToSearch = navigateToSearch,
-                navigateToCollections = navigateToCollection
+                navigateToCollections = navigateToTopic
             )
         }
     ) { innerPadding ->

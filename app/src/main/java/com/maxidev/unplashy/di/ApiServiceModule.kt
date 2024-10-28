@@ -1,9 +1,9 @@
 package com.maxidev.unplashy.di
 
-import com.maxidev.unplashy.data.remote.apiservice.CollectionsService
 import com.maxidev.unplashy.data.remote.apiservice.DetailService
 import com.maxidev.unplashy.data.remote.apiservice.HomeService
 import com.maxidev.unplashy.data.remote.apiservice.SearchService
+import com.maxidev.unplashy.data.remote.apiservice.TopicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +32,6 @@ object ApiServiceModule {
 
     @Provides
     @Singleton
-    fun providesCollectionsService(retrofit: Retrofit): CollectionsService =
-        retrofit.create(CollectionsService::class.java)
+    fun providesTopicService(retrofit: Retrofit): TopicService =
+        retrofit.create(TopicService::class.java)
 }

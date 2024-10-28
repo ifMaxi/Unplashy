@@ -4,10 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.maxidev.unplashy.ui.collections.collectionsScreen
 import com.maxidev.unplashy.ui.details.detailScreen
 import com.maxidev.unplashy.ui.home.homeView
 import com.maxidev.unplashy.ui.search.searchPhotoScreen
+import com.maxidev.unplashy.ui.topics.topicId
+import com.maxidev.unplashy.ui.topics.topicScreen
 import com.maxidev.unplashy.ui.zoom.imageZoomView
 import kotlinx.serialization.Serializable
 
@@ -22,12 +23,13 @@ fun NavigationGraph(
         navController = navController
     ) {
         homeView(
-            navigateToCollection = { navController.navigate(CollectionsScreen) },
+            navigateToTopic = { navController.navigate(TopicScreen) },
             navigateToSearch = { navController.navigate(SearchScreen) },
             navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) }
         )
         searchPhotoScreen()
-        collectionsScreen()
+        topicScreen(navigateToTopicId = { id -> navController.navigate(TopicIdScreen(id = id)) })
+        topicId( navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) } )
         detailScreen(
             navigateBack = { navController.popBackStack() },
             navigateToImageZoom = { imageUrl, width, height ->
@@ -46,7 +48,8 @@ fun NavigationGraph(
 
 @Serializable data object HomePhotoScreen
 @Serializable data object SearchScreen
-@Serializable data object CollectionsScreen
+@Serializable data object TopicScreen
+@Serializable data class TopicIdScreen(val id: String)
 @Serializable data class DetailScreen(val id: String)
 @Serializable
 data class ImageZoomScreen(
