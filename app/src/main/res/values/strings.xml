@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Unplashy</string>
 
+    <!-- Top Bar -->
+    <string name="for_you">For you</string>
+    <string name="topics">Topics</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Search photos</string>
+
     <!-- Content Description -->
     <string name="navigate_back">Navigate Back</string>
     <string name="download">Download</string>
