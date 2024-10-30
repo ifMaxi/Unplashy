@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -49,7 +51,7 @@ fun PhotoInformation(
             modifier = Modifier
                 .weight(1f)
                 .padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             InfoText(
                 label = "Created At",
@@ -70,7 +72,7 @@ fun PhotoInformation(
             modifier = Modifier
                 .weight(1f)
                 .padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             InfoText(
                 label = "Dimensions",
@@ -102,13 +104,13 @@ private fun InfoText(
 ) {
     val textBuilder = buildAnnotatedString {
         withStyle(
-            style = SpanStyle(fontSize = 14.sp),
+            style = SpanStyle(fontSize = 16.sp),
             block = { append(label) }
         )
         append("\n")
         withStyle(
             style = SpanStyle(
-                fontSize = 12.sp,
+                fontSize = 14.sp,
                 fontWeight = FontWeight.Light,
                 fontStyle = fontStyle
             ),
@@ -116,7 +118,11 @@ private fun InfoText(
         )
     }
 
-    Text(text = textBuilder)
+    Text(
+        text = textBuilder,
+        modifier = Modifier
+            .semantics { contentDescription = textBuilder.text }
+    )
 }
 
 @Preview

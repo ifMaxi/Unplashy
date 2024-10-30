@@ -17,6 +17,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,7 +36,7 @@ fun TagsItem(
         modifier = modifier
             .wrapContentHeight()
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalArrangement = Arrangement.Center,
         overflow = FlowRowOverflow.Clip
@@ -56,7 +58,9 @@ fun TagsItem(
                         text = tag,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Light,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .semantics { contentDescription = tag }
                     )
                 }
                 Spacer(modifier = Modifier.width(4.dp))

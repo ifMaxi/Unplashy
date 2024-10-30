@@ -1,28 +1,35 @@
 package com.maxidev.unplashy.ui.topics
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,10 +44,10 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
-import coil3.compose.AsyncImage
 import com.maxidev.unplashy.domain.model.TopicId
 import com.maxidev.unplashy.domain.model.TopicWithPhoto
 import com.maxidev.unplashy.navigation.TopicIdScreen
+import com.maxidev.unplashy.ui.components.PhotoItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 
 fun NavGraphBuilder.topicId(navigateToDetail: (String) -> Unit) {
@@ -73,35 +80,55 @@ private fun TopicIdView(
     navigateToDetail: (String) -> Unit
 ) {
     val topicState = remember(topicPhotos) { topicPhotos }
+    val showTopBar by remember { derivedStateOf { lazyState.firstVisibleItemIndex == 0 } }
 
-    LazyVerticalStaggeredGrid(
-        modifier = modifier
-            .fillMaxSize(),
-        columns = StaggeredGridCells.Adaptive(150.dp),
-        state = lazyState,
-        contentPadding = PaddingValues(10.dp),
-        verticalItemSpacing = 10.dp,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        item(span = StaggeredGridItemSpan.FullLine) {
-            TopicInformationItem(
-                title = topicId.title,
-                description = topicId.description
+    Scaffold(
+        modifier = modifier,
+        topBar = {
+            AnimatedVisibility(
+                visible = showTopBar,
+                enter = fadeIn(),
+                exit = fadeOut(),
+                content = {
+                    TopicInformationItem(
+                        title = topicId.title,
+                        description = topicId.description,
+                        modifier = Modifier
+                            .statusBarsPadding()
+                    )
+                }
+            )
+        },
+        content = { innerPadding ->
+            LazyVerticalStaggeredGrid(
+                modifier = modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .consumeWindowInsets(innerPadding),
+                columns = StaggeredGridCells.Adaptive(150.dp),
+                state = lazyState,
+                contentPadding = innerPadding,
+                verticalItemSpacing = 14.dp,
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                content = {
+                    items(
+                        count = topicState.itemCount,
+                        key = topicState.itemKey { key -> key.id },
+                        contentType = topicState.itemContentType { contentType -> contentType.id }
+                    ) { data ->
+                        topicState[data]?.let { photo ->
+                            PhotoItem(
+                                imageUrl = photo.regularImage,
+                                navigateToDetail = { navigateToDetail(photo.id) },
+                                modifier = Modifier
+                                    .padding(2.dp)
+                            )
+                        }
+                    }
+                }
             )
         }
-        items(
-            count = topicState.itemCount,
-            key = topicState.itemKey { key -> key.id },
-            contentType = topicState.itemContentType { contentType -> contentType.id }
-        ) { data ->
-            topicState[data]?.let { photo ->
-                PhotoItem(
-                    imageUrl = photo.regularImage,
-                    navigateToDetail = { navigateToDetail(photo.id) }
-                )
-            }
-        }
-    }
+    )
 }
 
 @Composable
@@ -114,40 +141,30 @@ private fun TopicInformationItem(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(10.dp),
+            .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+            .background(color = MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Text(
             text = title,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Start
+            fontSize = 32.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Start,
+            modifier = Modifier
+                .padding(10.dp)
+                .semantics { contentDescription = title }
         )
         Text(
             text = description,
             fontSize = 12.sp,
             fontWeight = FontWeight.Light,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(10.dp)
+                .semantics { contentDescription = description }
         )
     }
-}
-
-@Composable
-private fun PhotoItem(
-    modifier: Modifier = Modifier,
-    imageUrl: String,
-    navigateToDetail: () -> Unit
-) {
-    AsyncImage(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(3))
-            .clickable { navigateToDetail() },
-        model = imageUrl,
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
 }
 
 @Preview

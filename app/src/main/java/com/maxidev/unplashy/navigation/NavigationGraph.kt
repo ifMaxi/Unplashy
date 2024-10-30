@@ -25,11 +25,25 @@ fun NavigationGraph(
         homeView(
             navigateToTopic = { navController.navigate(TopicScreen) },
             navigateToSearch = { navController.navigate(SearchScreen) },
-            navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) }
+            navigateToDetail = { id ->
+                navController.navigate(DetailScreen(id = id))
+            }
         )
-        searchPhotoScreen()
-        topicScreen(navigateToTopicId = { id -> navController.navigate(TopicIdScreen(id = id)) })
-        topicId( navigateToDetail = { id -> navController.navigate(DetailScreen(id = id)) } )
+        searchPhotoScreen(
+            navigateToDetail = { id ->
+                navController.navigate(DetailScreen(id = id))
+            }
+        )
+        topicScreen(
+            navigateToTopicId = { id ->
+                navController.navigate(TopicIdScreen(id = id))
+            }
+        )
+        topicId(
+            navigateToDetail = { id ->
+                navController.navigate(DetailScreen(id = id))
+            }
+        )
         detailScreen(
             navigateBack = { navController.popBackStack() },
             navigateToImageZoom = { imageUrl, width, height ->
@@ -42,7 +56,9 @@ fun NavigationGraph(
                 )
             }
         )
-        imageZoomView(navigateBack = { navController.popBackStack() })
+        imageZoomView(
+            navigateBack = { navController.popBackStack() }
+        )
     }
 }
 

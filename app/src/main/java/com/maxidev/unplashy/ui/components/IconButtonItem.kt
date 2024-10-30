@@ -26,8 +26,7 @@ fun IconButtonItem(
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = stringResource(contentDescription),
-            //tint = if (isSystemInDarkTheme()) Color.Black else Color.White
+            contentDescription = stringResource(contentDescription)
         )
     }
 }

@@ -18,12 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,21 +32,8 @@ fun UserPhotoWithData(
     modifier: Modifier = Modifier,
     name: String,
     profileImageUrl: String,
-    altDescription: String,
-    city: String,
-    country: String
+    altDescription: String
 ) {
-    val textBuilder = buildAnnotatedString {
-        withStyle(
-            style = SpanStyle(fontSize = 14.sp),
-            block = { if (city.isNotEmpty()) append("$city, ") },
-        )
-        withStyle(
-            style = SpanStyle(fontSize = 14.sp),
-            block = { if (country.isNotEmpty()) append(country) }
-        )
-    }
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -81,17 +65,12 @@ fun UserPhotoWithData(
         ) {
             Text(
                 text = name,
-                fontSize = 18.sp,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .semantics { contentDescription = name }
             )
-            if (textBuilder.isNotEmpty()) {
-                Text(
-                    text = textBuilder,
-                    modifier = Modifier
-                        .semantics { contentDescription = textBuilder.text }
-                )
-            }
             Text(
                 text = altDescription,
                 fontSize = 14.sp,
@@ -114,9 +93,7 @@ private fun UserPhotoWithDataPreview() {
         UserPhotoWithData(
             name = "Tabatha Villarreal",
             profileImageUrl = "https://search.yahoo.com/search?p=splendide",
-            altDescription = "Lorem impsum dolor sit amet.",
-            city = "Mclean",
-            country = "Libya"
+            altDescription = "Lorem impsum dolor sit amet."
         )
     }
 }

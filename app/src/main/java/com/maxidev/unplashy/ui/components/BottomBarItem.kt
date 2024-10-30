@@ -10,7 +10,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,10 +30,7 @@ fun BottomBarItem(
 ) {
     BottomAppBar(
         modifier = modifier
-            .clip(
-                RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-            ),
-        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)),
         actions = {
             IconButton(onClick = navigateToSearch) {
                 Icon(
