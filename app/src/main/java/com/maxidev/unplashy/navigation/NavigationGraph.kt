@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import com.maxidev.unplashy.ui.details.detailScreen
 import com.maxidev.unplashy.ui.home.homeView
 import com.maxidev.unplashy.ui.search.searchPhotoScreen
+import com.maxidev.unplashy.ui.settings.settingsScreen
 import com.maxidev.unplashy.ui.topics.topicId
 import com.maxidev.unplashy.ui.topics.topicScreen
 import com.maxidev.unplashy.ui.zoom.imageZoomView
@@ -15,6 +16,8 @@ import kotlinx.serialization.Serializable
 @Composable
 fun NavigationGraph(
     modifier: Modifier = Modifier,
+    toggle: Boolean,
+    onToggleChange: (Boolean) -> Unit,
     navController: NavHostController
 ) {
     NavHost(
@@ -27,7 +30,8 @@ fun NavigationGraph(
             navigateToSearch = { navController.navigate(SearchScreen) },
             navigateToDetail = { id ->
                 navController.navigate(DetailScreen(id = id))
-            }
+            },
+            navigateToSettings = { navController.navigate(SettingsScreen) }
         )
         searchPhotoScreen(
             navigateToDetail = { id ->
@@ -59,12 +63,17 @@ fun NavigationGraph(
         imageZoomView(
             navigateBack = { navController.popBackStack() }
         )
+        settingsScreen(
+            toggle = toggle,
+            onToggleChange = onToggleChange
+        )
     }
 }
 
 @Serializable data object HomePhotoScreen
 @Serializable data object SearchScreen
 @Serializable data object TopicScreen
+@Serializable data object SettingsScreen
 @Serializable data class TopicIdScreen(val id: String)
 @Serializable data class DetailScreen(val id: String)
 @Serializable

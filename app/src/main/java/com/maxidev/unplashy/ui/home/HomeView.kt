@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.material.icons.filled.Category
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -54,7 +55,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -73,12 +73,11 @@ import com.maxidev.unplashy.ui.theme.UnplashyTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// TODO: Update the Ui in details, search, and topic views.
-
 fun NavGraphBuilder.homeView(
     navigateToSearch: () -> Unit,
     navigateToTopic: () -> Unit,
-    navigateToDetail: (String) -> Unit
+    navigateToDetail: (String) -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     composable<HomePhotoScreen> {
         val viewModel = hiltViewModel<PhotosViewModel>()
@@ -90,7 +89,8 @@ fun NavGraphBuilder.homeView(
             lazyState = lazyState,
             navigateToSearch = navigateToSearch,
             navigateToDetail = navigateToDetail,
-            navigateToTopic = navigateToTopic
+            navigateToTopic = navigateToTopic,
+            navigateToSettings = navigateToSettings
         )
     }
 }
@@ -103,7 +103,8 @@ private fun PhotosContent(
     lazyState: LazyStaggeredGridState,
     navigateToSearch: () -> Unit,
     navigateToTopic: () -> Unit,
-    navigateToDetail: (String) -> Unit
+    navigateToDetail: (String) -> Unit,
+    navigateToSettings: () -> Unit
 ) {
     val context = LocalContext.current
     val photos = remember(pagedContent) { pagedContent }
@@ -141,12 +142,14 @@ private fun PhotosContent(
                 exit = slideOutVertically(targetOffsetY = { it }),
                 content = {
                     BottomBarItem(
-                        collectionIcon = Icons.Default.Category,
+                        settingsIcon = Icons.Default.Settings,
+                        topicsIcon = Icons.Default.Category,
                         searchIcon = Icons.Default.Search,
                         navigateToSearch = navigateToSearch,
                         fabIcon = Icons.Default.Add,
-                        navigateToMainPage = { startActivity(context, unsplashIntent, null) },
-                        navigateToCollections = navigateToTopic
+                        navigateToMainPage = { context.startActivity(unsplashIntent, null) },
+                        navigateToTopics = navigateToTopic,
+                        navigateToSettings = navigateToSettings
                     )
                 }
             )

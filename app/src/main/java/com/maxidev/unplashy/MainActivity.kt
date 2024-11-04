@@ -5,9 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import coil3.ImageLoader
@@ -23,6 +26,7 @@ import coil3.request.allowRgb565
 import coil3.request.crossfade
 import coil3.util.DebugLogger
 import com.maxidev.unplashy.navigation.NavigationGraph
+import com.maxidev.unplashy.ui.settings.SettingsViewModel
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers.IO
@@ -30,6 +34,9 @@ import okio.FileSystem
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<SettingsViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,7 +44,9 @@ class MainActivity : ComponentActivity() {
             window.isNavigationBarContrastEnforced = false
         }
         setContent {
-            UnplashyTheme {
+            val isDarkTheme by viewModel.isDarkModeActivated.collectAsState(false)
+
+            UnplashyTheme(darkTheme = isDarkTheme) {
 
                 val navController = rememberNavController()
 
@@ -50,7 +59,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NavigationGraph(
-                        navController = navController
+                        navController = navController,
+                        toggle = isDarkTheme,
+                        onToggleChange = viewModel::toggleDarkMode
                     )
                 }
             }

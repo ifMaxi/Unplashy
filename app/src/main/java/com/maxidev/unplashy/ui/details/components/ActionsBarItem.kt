@@ -24,7 +24,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import com.maxidev.unplashy.R
 import com.maxidev.unplashy.broadcast.AndroidDownloader
 import com.maxidev.unplashy.ui.components.IconButtonItem
@@ -80,12 +79,12 @@ fun ActionsBarItem(
         IconButtonItem(
             icon = Icons.Default.OpenInBrowser,
             contentDescription = R.string.open_in_browser,
-            onClick = { startActivity(context, browserIntent, null) }
+            onClick = { context.startActivity(browserIntent, null) }
         )
         IconButtonItem(
             icon = Icons.Default.Share,
             contentDescription = R.string.share,
-            onClick = {  startActivity(context, sendChooser, null) }
+            onClick = { context.startActivity(sendChooser, null) }
         )
     }
 }
