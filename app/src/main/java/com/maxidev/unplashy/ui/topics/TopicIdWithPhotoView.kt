@@ -143,7 +143,7 @@ private fun TopicInformationItem(
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
-            .background(color = MaterialTheme.colorScheme.surface),
+            .background(color = MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {

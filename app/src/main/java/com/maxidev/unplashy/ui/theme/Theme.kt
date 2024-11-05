@@ -1,5 +1,77 @@
 package com.maxidev.unplashy.ui.theme
 
+import DarkBackground
+import DarkError
+import DarkErrorContainer
+import DarkInverseOnSurface
+import DarkInversePrimary
+import DarkInverseSurface
+import DarkOnBackground
+import DarkOnError
+import DarkOnErrorContainer
+import DarkOnPrimary
+import DarkOnPrimaryContainer
+import DarkOnSecondary
+import DarkOnSecondaryContainer
+import DarkOnSurface
+import DarkOnSurfaceVariant
+import DarkOnTertiary
+import DarkOnTertiaryContainer
+import DarkOutline
+import DarkOutlineVariant
+import DarkPrimary
+import DarkPrimaryContainer
+import DarkScrim
+import DarkSecondary
+import DarkSecondaryContainer
+import DarkSurface
+import DarkSurfaceBright
+import DarkSurfaceContainer
+import DarkSurfaceContainerHigh
+import DarkSurfaceContainerHighest
+import DarkSurfaceContainerLow
+import DarkSurfaceContainerLowest
+import DarkSurfaceDim
+import DarkSurfaceTint
+import DarkSurfaceVariant
+import DarkTertiary
+import DarkTertiaryContainer
+import PastelBackground
+import PastelError
+import PastelErrorContainer
+import PastelInverseOnSurface
+import PastelInversePrimary
+import PastelInverseSurface
+import PastelOnBackground
+import PastelOnError
+import PastelOnErrorContainer
+import PastelOnPrimary
+import PastelOnPrimaryContainer
+import PastelOnSecondary
+import PastelOnSecondaryContainer
+import PastelOnSurface
+import PastelOnSurfaceVariant
+import PastelOnTertiary
+import PastelOnTertiaryContainer
+import PastelOutline
+import PastelOutlineVariant
+import PastelPrimary
+import PastelPrimaryContainer
+import PastelScrim
+import PastelSecondary
+import PastelSecondaryContainer
+import PastelSurface
+import PastelSurfaceBright
+import PastelSurfaceContainer
+import PastelSurfaceContainerHigh
+import PastelSurfaceContainerHighest
+import PastelSurfaceContainerLow
+import PastelSurfaceContainerLowest
+import PastelSurfaceDim
+import PastelSurfaceTint
+import PastelSurfaceVariant
+import PastelTertiary
+import PastelTertiaryContainer
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -10,26 +82,82 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+val DarkColorScheme = darkColorScheme(
+    primary = DarkPrimary,
+    secondary = DarkSecondary,
+    tertiary = DarkTertiary,
+    onPrimary = DarkOnPrimary,
+    primaryContainer = DarkPrimaryContainer,
+    onPrimaryContainer = DarkOnPrimaryContainer,
+    inversePrimary = DarkInversePrimary,
+    onSecondary = DarkOnSecondary,
+    secondaryContainer = DarkSecondaryContainer,
+    onSecondaryContainer = DarkOnSecondaryContainer,
+    onTertiary = DarkOnTertiary,
+    tertiaryContainer = DarkTertiaryContainer,
+    onTertiaryContainer = DarkOnTertiaryContainer,
+    background = DarkBackground,
+    onBackground = DarkOnBackground,
+    surface = DarkSurface,
+    onSurface = DarkOnSurface,
+    surfaceVariant = DarkSurfaceVariant,
+    onSurfaceVariant = DarkOnSurfaceVariant,
+    surfaceTint = DarkSurfaceTint,
+    inverseSurface = DarkInverseSurface,
+    inverseOnSurface = DarkInverseOnSurface,
+    error = DarkError,
+    onError = DarkOnError,
+    errorContainer = DarkErrorContainer,
+    onErrorContainer = DarkOnErrorContainer,
+    outline = DarkOutline,
+    outlineVariant = DarkOutlineVariant,
+    scrim = DarkScrim,
+    surfaceBright = DarkSurfaceBright,
+    surfaceContainer = DarkSurfaceContainer,
+    surfaceContainerHigh = DarkSurfaceContainerHigh,
+    surfaceContainerHighest = DarkSurfaceContainerHighest,
+    surfaceContainerLow = DarkSurfaceContainerLow,
+    surfaceContainerLowest = DarkSurfaceContainerLowest,
+    surfaceDim = DarkSurfaceDim
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+val LightColorScheme = lightColorScheme(
+    primary = PastelPrimary,
+    secondary = PastelSecondary,
+    tertiary = PastelTertiary,
+    onPrimary = PastelOnPrimary,
+    primaryContainer = PastelPrimaryContainer,
+    onPrimaryContainer = PastelOnPrimaryContainer,
+    inversePrimary = PastelInversePrimary,
+    onSecondary = PastelOnSecondary,
+    secondaryContainer = PastelSecondaryContainer,
+    onSecondaryContainer = PastelOnSecondaryContainer,
+    onTertiary = PastelOnTertiary,
+    tertiaryContainer = PastelTertiaryContainer,
+    onTertiaryContainer = PastelOnTertiaryContainer,
+    background = PastelBackground,
+    onBackground = PastelOnBackground,
+    surface = PastelSurface,
+    onSurface = PastelOnSurface,
+    surfaceVariant = PastelSurfaceVariant,
+    onSurfaceVariant = PastelOnSurfaceVariant,
+    surfaceTint = PastelSurfaceTint,
+    inverseSurface = PastelInverseSurface,
+    inverseOnSurface = PastelInverseOnSurface,
+    error = PastelError,
+    onError = PastelOnError,
+    errorContainer = PastelErrorContainer,
+    onErrorContainer = PastelOnErrorContainer,
+    outline = PastelOutline,
+    outlineVariant = PastelOutlineVariant,
+    scrim = PastelScrim,
+    surfaceBright = PastelSurfaceBright,
+    surfaceContainer = PastelSurfaceContainer,
+    surfaceContainerHigh = PastelSurfaceContainerHigh,
+    surfaceContainerHighest = PastelSurfaceContainerHighest,
+    surfaceContainerLow = PastelSurfaceContainerLow,
+    surfaceContainerLowest = PastelSurfaceContainerLowest,
+    surfaceDim = PastelSurfaceDim
 )
 
 @Composable

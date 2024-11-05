@@ -3,7 +3,6 @@ package com.maxidev.unplashy.ui.zoom
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -62,7 +61,6 @@ fun ImageZoomView(
 ) {
     Scaffold(
         modifier = modifier,
-        containerColor = if (isSystemInDarkTheme()) Color.Black else Color.White,
         topBar = {
             Row(
                 modifier = Modifier
@@ -88,7 +86,7 @@ fun ImageZoomView(
             modifier = Modifier
                 .fillMaxSize()
                 .consumeWindowInsets(innerPadding)
-                .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White),
+                .background(color = Color.Black),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
