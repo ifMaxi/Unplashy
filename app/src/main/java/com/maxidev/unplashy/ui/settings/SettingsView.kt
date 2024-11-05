@@ -43,6 +43,7 @@ import com.maxidev.unplashy.R
 import com.maxidev.unplashy.navigation.SettingsScreen
 import com.maxidev.unplashy.ui.components.MediumTopBarItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 fun NavGraphBuilder.settingsScreen(
     toggle: Boolean,
@@ -71,7 +72,6 @@ private fun SettingsView(
         topBar = {
             MediumTopBarItem(
                 title = R.string.settings,
-                image = null,
                 scrollBehavior = scrollBehavior
             )
         },
@@ -115,7 +115,7 @@ private fun SettingsItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(20.dp),
             horizontalArrangement = Arrangement.spacedBy(20.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -125,6 +125,7 @@ private fun SettingsItem(
             )
             Text(
                 text = stringResource(id = setting),
+                fontFamily = montserratFamily,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )

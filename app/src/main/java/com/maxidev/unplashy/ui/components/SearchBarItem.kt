@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.maxidev.unplashy.R
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,7 +54,8 @@ fun SearchBarItem(
                     onExpandedChange = onExpandedChange,
                     placeholder = {
                         Text(
-                            text = stringResource(R.string.search_placeholder)
+                            text = stringResource(R.string.search_placeholder),
+                            fontFamily = montserratFamily
                         )
                     },
                     leadingIcon = {

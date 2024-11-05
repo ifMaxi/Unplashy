@@ -41,10 +41,8 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -70,7 +68,6 @@ import com.maxidev.unplashy.ui.components.BottomBarItem
 import com.maxidev.unplashy.ui.components.MediumTopBarItem
 import com.maxidev.unplashy.ui.components.SmallFabItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 fun NavGraphBuilder.homeView(
@@ -82,7 +79,10 @@ fun NavGraphBuilder.homeView(
     composable<HomePhotoScreen> {
         val viewModel = hiltViewModel<PhotosViewModel>()
         val photo = viewModel.pagingPhotos.collectAsLazyPagingItems()
+        val isRefreshing = viewModel.isRefreshing
         val lazyState = rememberLazyStaggeredGridState()
+        val showBottomBar by remember { derivedStateOf { lazyState.firstVisibleItemIndex != 0 } }
+        val showFabButton by remember { derivedStateOf { lazyState.firstVisibleItemIndex >= 10 } }
 
         PhotosContent(
             pagedContent = photo,
@@ -90,7 +90,11 @@ fun NavGraphBuilder.homeView(
             navigateToSearch = navigateToSearch,
             navigateToDetail = navigateToDetail,
             navigateToTopic = navigateToTopic,
-            navigateToSettings = navigateToSettings
+            navigateToSettings = navigateToSettings,
+            isRefreshing = isRefreshing,
+            onRefresh = viewModel::refresh,
+            showBottomBar = showBottomBar,
+            showFabButton = showFabButton
         )
     }
 }
@@ -101,6 +105,10 @@ private fun PhotosContent(
     modifier: Modifier = Modifier,
     pagedContent: LazyPagingItems<Photos>,
     lazyState: LazyStaggeredGridState,
+    showFabButton: Boolean,
+    showBottomBar: Boolean,
+    isRefreshing: Boolean,
+    onRefresh: () -> Unit,
     navigateToSearch: () -> Unit,
     navigateToTopic: () -> Unit,
     navigateToDetail: (String) -> Unit,
@@ -109,30 +117,16 @@ private fun PhotosContent(
     val context = LocalContext.current
     val photos = remember(pagedContent) { pagedContent }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
-    var isRefreshing by remember { mutableStateOf(false) }
     val pullState = rememberPullToRefreshState()
     val scope = rememberCoroutineScope()
-    val showBottomBar by remember {
-        derivedStateOf { lazyState.firstVisibleItemIndex != 0 || lazyState.firstVisibleItemScrollOffset != 0 }
-    }
-    val showFabButton by remember { derivedStateOf { lazyState.firstVisibleItemIndex >= 10 } }
     val unsplashIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://unsplash.com"))
-    val onRefresh: () -> Unit = {
-        isRefreshing = true
-        scope.launch {
-            delay(2000)
-            photos.refresh()
-            isRefreshing = false
-        }
-    }
 
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             MediumTopBarItem(
                 title = R.string.for_you,
-                image = R.drawable.pylc5zrd_400x400,
-                scrollBehavior = scrollBehavior,
+                scrollBehavior = scrollBehavior
             )
         },
         bottomBar = {
@@ -170,7 +164,6 @@ private fun PhotosContent(
             )
         }
     ) { innerPadding ->
-        // TODO: Fix pull to refresh.
         PullToRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
@@ -195,19 +188,21 @@ private fun PhotosContent(
                     verticalItemSpacing = 10.dp,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(
-                        count = photos.itemCount,
-                        key = photos.itemKey { key -> key.id },
-                        contentType = photos.itemContentType { contentType -> contentType.id }
-                    ) { item ->
-                        photos[item]?.let { photos ->
-                            PhotoItem(
-                                id = photos.id,
-                                imageRegular = photos.regular,
-                                name = photos.name,
-                                profileImageSmall = photos.profileImageLarge,
-                                navigateToDetail = navigateToDetail
-                            )
+                    if (!isRefreshing) {
+                        items(
+                            count = photos.itemCount,
+                            key = photos.itemKey { key -> key.id },
+                            contentType = photos.itemContentType { contentType -> contentType.id }
+                        ) { item ->
+                            photos[item]?.let { photos ->
+                                PhotoItem(
+                                    id = photos.id,
+                                    imageRegular = photos.regular,
+                                    name = photos.name,
+                                    profileImageSmall = photos.profileImageLarge,
+                                    navigateToDetail = navigateToDetail
+                                )
+                            }
                         }
                     }
                 }
@@ -216,7 +211,6 @@ private fun PhotosContent(
     }
 }
 
-// Component for the normal grid.
 @Composable
 private fun PhotoItem(
     modifier: Modifier = Modifier,
@@ -263,7 +257,7 @@ private fun PhotoItem(
         }
         AsyncImage(
             modifier = modifier
-                .clip(RoundedCornerShape(4))
+                .clip(RoundedCornerShape(5))
                 .clickable { navigateToDetail(id) },
             model = imageRegular,
             contentDescription = null,

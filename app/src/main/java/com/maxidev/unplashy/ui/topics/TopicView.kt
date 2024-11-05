@@ -45,6 +45,7 @@ import com.maxidev.unplashy.domain.model.Topic
 import com.maxidev.unplashy.navigation.TopicScreen
 import com.maxidev.unplashy.ui.components.MediumTopBarItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 fun NavGraphBuilder.topicScreen(navigateToTopicId: (String) -> Unit) {
     composable<TopicScreen> {
@@ -76,7 +77,6 @@ private fun TopicView(
         topBar = {
             MediumTopBarItem(
                 title = R.string.topics,
-                image = null,
                 scrollBehavior = scrollBehavior
             )
         },
@@ -126,7 +126,7 @@ private fun TopicItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .clip(RoundedCornerShape(3))
+            .clip(RoundedCornerShape(5))
             .clickable { navigateToTopicId(id) }
     ) {
         AsyncImage(
@@ -141,6 +141,7 @@ private fun TopicItem(
                 .padding(10.dp),
             text = title,
             color = Color.White,
+            fontFamily = montserratFamily,
             fontSize = 24.sp,
             fontWeight = FontWeight.Medium,
             style = TextStyle(
@@ -157,18 +158,22 @@ private fun TopicItem(
         ) {
             Text(
                 text = "$totalPhotos photos",
+                fontFamily = montserratFamily,
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
                 color = Color.White,
                 style = TextStyle(
-                    shadow = Shadow(color = Color.Black, blurRadius = 6f)
+                    shadow = Shadow(color = Color.Black, blurRadius = 8f)
                 )
             )
             Text(
                 text = "Owner: $owner",
+                fontFamily = montserratFamily,
                 fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
                 color = Color.White,
                 style = TextStyle(
-                    shadow = Shadow(color = Color.Black, blurRadius = 6f)
+                    shadow = Shadow(color = Color.Black, blurRadius = 8f)
                 )
             )
         }

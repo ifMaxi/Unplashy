@@ -5,7 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val PHOTOS = "photos"
-private const val TOPICS = "topics"
 
 // API endpoints for the home screen.
 interface HomeService {
@@ -15,10 +14,4 @@ interface HomeService {
         @Query("page") page: Int,
         @Query("per_page") perPage: Int,
     ): List<PhotosDto>
-
-    @GET(TOPICS)
-    suspend fun getTopics(
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int
-    )
 }

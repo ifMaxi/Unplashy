@@ -49,6 +49,7 @@ import com.maxidev.unplashy.domain.model.TopicWithPhoto
 import com.maxidev.unplashy.navigation.TopicIdScreen
 import com.maxidev.unplashy.ui.components.PhotoItem
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 fun NavGraphBuilder.topicId(navigateToDetail: (String) -> Unit) {
     composable<TopicIdScreen> { backStackEntry ->
@@ -148,20 +149,22 @@ private fun TopicInformationItem(
     ) {
         Text(
             text = title,
+            fontFamily = montserratFamily,
             fontSize = 32.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Start,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(20.dp)
                 .semantics { contentDescription = title }
         )
         Text(
             text = description,
+            fontFamily = montserratFamily,
             fontSize = 12.sp,
             fontWeight = FontWeight.Light,
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .padding(10.dp)
+                .padding(20.dp)
                 .semantics { contentDescription = description }
         )
     }

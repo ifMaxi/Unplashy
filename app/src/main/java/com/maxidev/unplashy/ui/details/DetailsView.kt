@@ -2,7 +2,6 @@ package com.maxidev.unplashy.ui.details
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -12,7 +11,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import com.maxidev.unplashy.R
 import com.maxidev.unplashy.navigation.DetailScreen
+import com.maxidev.unplashy.ui.components.StatusView
 import com.maxidev.unplashy.ui.details.components.DetailContent
 
 fun NavGraphBuilder.detailScreen(
@@ -48,7 +49,12 @@ private fun LoadStatus(
 ) {
 
     when (load) {
-        is DetailsLoadState.Error -> Text("Error")
+        is DetailsLoadState.Error -> {
+            StatusView(
+                status = R.string.no_internet,
+                animation = R.raw.image_error
+            )
+        }
         is DetailsLoadState.Success -> {
             DetailContent(
                 modifier = modifier,

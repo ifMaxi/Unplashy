@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 import com.maxidev.unplashy.utils.DateTimeUtils.dateTime
 import com.maxidev.unplashy.utils.DateTimeUtils.formatter
 
@@ -60,12 +61,12 @@ fun PhotoInformation(
             InfoText(
                 label = "Aperture",
                 value = if (aperture.isEmpty()) UNKNOWN else "f/$aperture",
-                fontStyle = FontStyle.Italic
+                fontStyle = if (aperture.isNotEmpty()) FontStyle.Italic else FontStyle.Normal
             )
             InfoText(
                 label = "Shutter Speed",
                 value = if (exposureTime.isEmpty()) UNKNOWN else "${exposureTime}s",
-                fontStyle = FontStyle.Italic
+                fontStyle = if (exposureTime.isNotEmpty()) FontStyle.Italic else FontStyle.Normal
             )
         }
         Column(
@@ -104,13 +105,17 @@ private fun InfoText(
 ) {
     val textBuilder = buildAnnotatedString {
         withStyle(
-            style = SpanStyle(fontSize = 16.sp),
+            style = SpanStyle(
+                fontFamily = montserratFamily,
+                fontSize = 14.sp
+            ),
             block = { append(label) }
         )
         append("\n")
         withStyle(
             style = SpanStyle(
-                fontSize = 14.sp,
+                fontFamily = montserratFamily,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Light,
                 fontStyle = fontStyle
             ),

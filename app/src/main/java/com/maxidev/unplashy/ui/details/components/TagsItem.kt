@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -56,6 +57,7 @@ fun TagsItem(
                 ) {
                     Text(
                         text = tag,
+                        fontFamily = montserratFamily,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Light,
                         textAlign = TextAlign.Center,

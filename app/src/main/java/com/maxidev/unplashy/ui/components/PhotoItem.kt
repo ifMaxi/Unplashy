@@ -18,7 +18,7 @@ fun PhotoItem(
     AsyncImage(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(4))
+            .clip(RoundedCornerShape(5))
             .clickable { navigateToDetail() },
         model = imageUrl,
         contentDescription = null,

@@ -10,14 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.maxidev.unplashy.R
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 @Composable
 fun HeadPhotoItem(
@@ -49,7 +49,7 @@ fun HeadPhotoItem(
         withStyle(
             style = SpanStyle(
                 color = Color.White,
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 shadow = Shadow(color = Color.Black, blurRadius = 8f)
             ),
             block = { if (city.isNotEmpty()) append("$city, ") },
@@ -57,7 +57,7 @@ fun HeadPhotoItem(
         withStyle(
             style = SpanStyle(
                 color = Color.White,
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 shadow = Shadow(color = Color.Black, blurRadius = 8f)
             ),
             block = { if (country.isNotEmpty()) append(country) }
@@ -91,14 +91,16 @@ fun HeadPhotoItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    imageVector = Icons.Default.LocationOn,
+                    imageVector = Icons.Outlined.LocationOn,
                     contentDescription = stringResource(R.string.location),
-                    tint = if (isSystemInDarkTheme()) Color.Black else Color.White,
-                    modifier = Modifier.shadow(elevation = 10.dp)
+                    tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )
                 Text(
                     text = textBuilder,
+                    fontFamily = montserratFamily,
+                    maxLines = 2,
                     modifier = Modifier
+                        .fillMaxWidth()
                         .semantics { contentDescription = textBuilder.text }
                 )
             }

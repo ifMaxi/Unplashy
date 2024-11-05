@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.maxidev.unplashy.ui.theme.UnplashyTheme
+import com.maxidev.unplashy.ui.theme.montserratFamily
 
 @Composable
 fun UserPhotoWithData(
@@ -65,6 +66,7 @@ fun UserPhotoWithData(
         ) {
             Text(
                 text = name,
+                fontFamily = montserratFamily,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
@@ -73,6 +75,7 @@ fun UserPhotoWithData(
             )
             Text(
                 text = altDescription,
+                fontFamily = montserratFamily,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Light,
                 fontStyle = FontStyle.Italic,
