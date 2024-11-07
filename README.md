@@ -40,19 +40,17 @@ In order to access the content of the app, you will need an API_KEY which you ca
 
 ## Architecture
 
-The architecture used is the one recommended by Google, usually called MVVM (Model - View - ViewModel)
+The pattern used for this project is MVVM (Model-View-ViewModel) which is a widely used architectural pattern in Android development that promotes separation of concerns, testability, and maintainability. It divides an application into three interconnected parts:
 
-This is divided into:
-
-- Model: Which represents the data and business logic
-- View: Which represents the UI
-- ViewModel: Which represents the bridge between the View and the Model
+1. **Model**: Represents the data and business logic of the application. It's responsible for fetching, storing, and manipulating data. This might include data classes, repositories, and data sources like databases or network APIs.
+2. **View**: In Compose, the View is represented by composable functions. These functions describe the UI declaratively, defining how it should look based on the current state. Instead of directly manipulating UI elements, composable functions recompose when the underlying data changes.
+3. **ViewModel**: Acts as an intermediary between the Model and the View. It exposes data from the Model in a way that's easily consumable by the View. It also handles user interactions from the View and updates the Model accordingly. The ViewModel is lifecycle-aware, meaning it survives configuration changes like screen rotations.
 
 ![Mvvm arch](https://github.com/user-attachments/assets/011add8b-cd32-4ae7-b78e-60a2ca578a59)
 
 ## Navigation
 
-TODO
+![NavigationGraph](https://github.com/user-attachments/assets/1443d904-0300-4a52-a862-0c2e1622c2c4)
 
 ## Screenshots
 
